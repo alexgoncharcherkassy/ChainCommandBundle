@@ -51,9 +51,7 @@ class ChainManager implements ChainManagerInterface
 
         $this->assignCommandsToParent();
 
-        if ($this->master) {
-            $this->validator->validate($this->commands, $this->master);
-        }
+        $this->validator->validate($this->commands);
     }
 
     /**
@@ -178,7 +176,7 @@ class ChainManager implements ChainManagerInterface
 
         $first = reset($filtered);
 
-        return $first ?? null;
+        return $first ?: null;
     }
 
     /**
@@ -195,6 +193,6 @@ class ChainManager implements ChainManagerInterface
 
         $first = reset($filtered);
 
-        return $first ?? null;
+        return $first ?: null;
     }
 }

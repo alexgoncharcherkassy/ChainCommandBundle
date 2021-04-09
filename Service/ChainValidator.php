@@ -7,13 +7,19 @@ use http\Exception\InvalidArgumentException;
 
 class ChainValidator implements ChainValidatorInterface
 {
+    /**
+     * @var array
+     */
     private array $commands = [];
+
+    /**
+     * @var ChainCommand
+     */
     private ChainCommand $master;
 
-    public function validate(array $commands, ChainCommand $masterCommand): void
+    public function validate(array $commands): void
     {
         $this->commands = $commands;
-        $this->master = $masterCommand;
 
         $this
             ->checkMasterCommand()
@@ -33,6 +39,8 @@ class ChainValidator implements ChainValidatorInterface
         if (count($filtered) > 1) {
             throw new InvalidArgumentException("Master command should be single");
         }
+
+        $this->master = reset($filtered);
 
         return $this;
     }
@@ -65,6 +73,6 @@ class ChainValidator implements ChainValidatorInterface
 
         $first = reset($filtered);
 
-        return $first ?? null;
+        return $first ?: null;
     }
 }

@@ -6,5 +6,5 @@ use AlexGoncharCK\ChainCommandBundle\Service\Model\ChainCommand;
 
 interface ChainValidatorInterface
 {
-    public function validate(array $commands, ChainCommand $masterCommand): void;
+    public function validate(array $commands): void;
 }
