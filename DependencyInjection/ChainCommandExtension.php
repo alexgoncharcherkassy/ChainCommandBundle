@@ -8,9 +8,9 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
 
 /**
- * Class ChainExtension
+ * Class ChainCommandExtension
  */
-class ChainExtension extends Extension
+class ChainCommandExtension extends Extension
 {
     /**
      * @param array $configs
