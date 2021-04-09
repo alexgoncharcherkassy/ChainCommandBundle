@@ -10,13 +10,6 @@
             "email": "cs210785gaa@gmail.com"
         }
     ],
-    "config": {
-        "optimize-autoloader": true,
-        "preferred-install": {
-            "*": "dist"
-        },
-        "sort-packages": true
-    },
     "autoload": {
         "psr-4": {
             "AlexGoncharCK\\ChainCommandBundle\\": ""
@@ -25,20 +18,6 @@
     "autoload-dev": {
         "psr-4": {
             "AlexGoncharCK\\Tests\\": "tests/"
-        }
-    },
-    "replace": {
-        "symfony/polyfill-ctype": "*",
-        "symfony/polyfill-iconv": "*",
-        "symfony/polyfill-php72": "*"
-    },
-    "conflict": {
-        "symfony/symfony": "*"
-    },
-    "extra": {
-        "symfony": {
-            "allow-contrib": false,
-            "require": "5.2.*"
         }
     },
     "require": {
