@@ -3,7 +3,6 @@
 namespace AlexGoncharCK\ChainCommandBundle\Service;
 
 use AlexGoncharCK\ChainCommandBundle\Service\Model\ChainCommand;
-use http\Exception\InvalidArgumentException;
 use Symfony\Component\DependencyInjection\Reference;
 
 class ChainManager implements ChainManagerInterface
@@ -91,7 +90,7 @@ class ChainManager implements ChainManagerInterface
         $chainCommand = new ChainCommand($command, $master, $parent);
 
         if ($this->findCommand($chainCommand)) {
-            throw new InvalidArgumentException(
+            throw new \Exception(
                 sprintf(
                     "Command with name: '%s' is already present on chain",
                     $chainCommand->getCommand()->getName()
@@ -140,7 +139,7 @@ class ChainManager implements ChainManagerInterface
             $parentCommand = $this->findCommandByName($command->getParentCommandName());
 
             if (!$parentCommand) {
-                throw new InvalidArgumentException(
+                throw new \Exception(
                     sprintf(
                         "Command with name: '%s' not found in chain",
                         $command->getParentCommandName()
@@ -149,7 +148,7 @@ class ChainManager implements ChainManagerInterface
             }
 
             if ($parentCommand->getMember()) {
-                throw new InvalidArgumentException(
+                throw new \Exception(
                     sprintf(
                         "Parent command with name: '%s' already have member command with name: '%s'",
                         $parentCommand->getCommand()->getName(),

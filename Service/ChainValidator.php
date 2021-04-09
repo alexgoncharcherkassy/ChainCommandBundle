@@ -3,7 +3,6 @@
 namespace AlexGoncharCK\ChainCommandBundle\Service;
 
 use AlexGoncharCK\ChainCommandBundle\Service\Model\ChainCommand;
-use http\Exception\InvalidArgumentException;
 
 class ChainValidator implements ChainValidatorInterface
 {
@@ -33,11 +32,11 @@ class ChainValidator implements ChainValidatorInterface
         });
 
         if (count($filtered) === 0) {
-            throw new InvalidArgumentException("Master command not present");
+            throw new \Exception("Master command not present");
         }
 
         if (count($filtered) > 1) {
-            throw new InvalidArgumentException("Master command should be single");
+            throw new \Exception("Master command should be single");
         }
 
         $this->master = reset($filtered);
@@ -59,7 +58,7 @@ class ChainValidator implements ChainValidatorInterface
         }
 
         if ($numberOfCommands !== count($this->commands)) {
-            throw new InvalidArgumentException("Chain is broken. Some commands");
+            throw new \Exception("Chain is broken. Some commands");
         }
 
         return $this;
