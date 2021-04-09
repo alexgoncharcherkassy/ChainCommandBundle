@@ -18,11 +18,13 @@ class ChainValidator implements ChainValidatorInterface
 
     public function validate(array $commands): void
     {
-        $this->commands = $commands;
+        if (count($commands) > 0) {
+            $this->commands = $commands;
 
-        $this
-            ->checkMasterCommand()
-            ->checkFullChain();
+            $this
+                ->checkMasterCommand()
+                ->checkFullChain();
+        }
     }
 
     private function checkMasterCommand(): self
