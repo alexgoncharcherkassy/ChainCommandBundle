@@ -16,7 +16,7 @@ class ChainManager implements ChainManagerInterface
     /**
      * @var ChainCommand|null
      */
-    private ?ChainCommand $master;
+    private ?ChainCommand $master = null;
 
     /**
      * @var ChainValidatorInterface
