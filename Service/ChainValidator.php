@@ -16,6 +16,12 @@ class ChainValidator implements ChainValidatorInterface
      */
     private ChainCommand $master;
 
+    /**
+     * Validate chain
+     *
+     * @param array $commands
+     * @throws \Exception
+     */
     public function validate(array $commands): void
     {
         if (count($commands) > 0) {
@@ -27,6 +33,12 @@ class ChainValidator implements ChainValidatorInterface
         }
     }
 
+    /**
+     * Check that master command is present and single
+     *
+     * @return $this
+     * @throws \Exception
+     */
     private function checkMasterCommand(): self
     {
         $filtered = array_filter($this->commands, function (ChainCommand $command) {
@@ -46,6 +58,12 @@ class ChainValidator implements ChainValidatorInterface
         return $this;
     }
 
+    /**
+     * Check that all commands are consecutive
+     *
+     * @return $this
+     * @throws \Exception
+     */
     private function checkFullChain(): self
     {
         // includes master command
@@ -66,6 +84,12 @@ class ChainValidator implements ChainValidatorInterface
         return $this;
     }
 
+    /**
+     * Find command by name
+     *
+     * @param ChainCommand $chainCommand
+     * @return ChainCommand|null
+     */
     private function findCommand(ChainCommand $chainCommand): ?ChainCommand
     {
         $filtered = array_filter($this->commands, function (ChainCommand $command) use ($chainCommand) {
