@@ -51,7 +51,9 @@ class ChainManager implements ChainManagerInterface
 
         $this->assignCommandsToParent();
 
-        $this->validator->validate($this->commands, $this->master);
+        if ($this->master) {
+            $this->validator->validate($this->commands, $this->master);
+        }
     }
 
     /**
