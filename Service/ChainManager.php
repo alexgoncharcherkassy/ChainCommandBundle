@@ -113,6 +113,9 @@ class ChainManager implements ChainManagerInterface
      */
     public function isMasterCommand(string $name): bool
     {
+        if (!$this->master) {
+            return false;
+        }
         return $this->master->getCommand()->getName() === $name;
     }
 
