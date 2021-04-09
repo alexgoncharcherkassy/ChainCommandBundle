@@ -1,0 +1,40 @@
+services:
+    chain_command_bundle.chain_validator:
+        class: AlexGoncharCK\ChainCommandBundle\Service\ChainValidator
+
+    chain_command_bundle.chain_manager:
+        class: AlexGoncharCK\ChainCommandBundle\Service\ChainManager
+        arguments:
+            - '@chain_command_bundle.chain_validator'
+
+    chain_command_bundle.chain_processor:
+        class: AlexGoncharCK\ChainCommandBundle\Service\ChainProcessor
+        arguments:
+            - '@chain_command_bundle.chain_manager'
+            - '@event_dispatcher'
+
+    chain_command_bundle.subscriber:
+        class: AlexGoncharCK\ChainCommandBundle\Subscriber\CommandSubscriber
+        arguments:
+            - '@chain_command_bundle.logger'
+            - '@chain_command_bundle.chain_processor'
+        tags:
+            - { name: kernel.event_subscriber }
+
+    chain_command_bundle.logger:
+        class: Symfony\Bridge\Monolog\Logger
+        arguments:
+            - 'command_chain_bundle'
+        calls:
+            - ['pushHandler', ['@chain_command_bundle.handler']]
+
+    chain_command_bundle.formatter:
+        class: Monolog\Formatter\LineFormatter
+        arguments: ["[%%datetime%%]  %%message%%\n"]
+
+    chain_command_bundle.handler:
+        class:  Monolog\Handler\StreamHandler
+        arguments:
+            - "%kernel.logs_dir%/chain_command_bundle/chain.log"
+        calls:
+            - ['setFormatter', ['@chain_command_bundle.formatter']]
