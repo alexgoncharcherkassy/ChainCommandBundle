@@ -14,17 +14,17 @@ class ChainCommand
     /**
      * @var ChainCommand | null
      */
-    private ?ChainCommand $member;
+    private ?ChainCommand $member = null;
 
     /**
      * @var bool
      */
-    private bool $master;
+    private bool $master = false;
 
     /**
      * @var string | null
      */
-    private ?string $parentCommandName;
+    private ?string $parentCommandName = null;
 
     /**
      * ChainCommand constructor.

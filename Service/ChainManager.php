@@ -3,6 +3,7 @@
 namespace AlexGoncharCK\ChainCommandBundle\Service;
 
 use AlexGoncharCK\ChainCommandBundle\Service\Model\ChainCommand;
+use Symfony\Component\Console\Command\Command;
 use Symfony\Component\DependencyInjection\Reference;
 
 class ChainManager implements ChainManagerInterface
@@ -34,18 +35,16 @@ class ChainManager implements ChainManagerInterface
     /**
      * Add commands from bundle compiler
      *
-     * @param array $services
+     * @param array $commands
      */
-    public function addCommands(array $services): void
+    public function addCommands(array $commands): void
     {
-        foreach ($services as $id => $tags) {
-            foreach ($tags as $tag) {
-                $this->createCommand(
-                    $id,
-                    !!($tag['master'] ?? false),
-                    $tag['parent'] ?? null
-                );
-            }
+        foreach ($commands as $command) {
+           $this->createCommand(
+               $command['command'],
+               $command['master'],
+               $command['parent']
+           );
         }
 
         $this->assignCommandsToParent();
@@ -70,23 +69,23 @@ class ChainManager implements ChainManagerInterface
      */
     public function getMembers(): iterable
     {
-        /** @var ChainCommand $command */
-        $command = $this->master->getMember();
+        /** @var ChainCommand $member */
+        $member = $this->master->getMember();
 
-        while ($command === null) {
-            $command = $this->findCommand($command->getMember());
-            yield $command;
+        while ($member !== null) {
+            $member = $this->findCommand($member->getMember());
+            yield $member;
         }
     }
 
     /**
-     * @param string $id
+     * @param Command $command
      * @param bool $master
      * @param string|null $parent
+     * @throws \Exception
      */
-    private function createCommand(string $id, bool $master, ?string $parent): void
+    private function createCommand(Command $command, bool $master, ?string $parent): void
     {
-        $command = new Reference($id);
         $chainCommand = new ChainCommand($command, $master, $parent);
 
         if ($this->findCommand($chainCommand)) {
@@ -139,6 +138,10 @@ class ChainManager implements ChainManagerInterface
     {
         /** @var ChainCommand $command */
         foreach ($this->commands as $command) {
+            if ($command->isMaster()) {
+                continue;
+            }
+
             $parentCommand = $this->findCommandByName($command->getParentCommandName());
 
             if (!$parentCommand) {
@@ -184,10 +187,10 @@ class ChainManager implements ChainManagerInterface
     /**
      * Find command by name
      *
-     * @param string $name
+     * @param string|null $name
      * @return ChainCommand|null
      */
-    private function findCommandByName(string $name): ?ChainCommand
+    private function findCommandByName(?string $name): ?ChainCommand
     {
         $filtered = array_filter($this->commands, function (ChainCommand $command) use ($name) {
             return $command->getCommand()->getName() === $name;

@@ -3,7 +3,7 @@
 namespace AlexGoncharCK\ChainCommandBundle\Event;
 
 use AlexGoncharCK\ChainCommandBundle\Service\Model\ChainCommand;
-use Symfony\Component\Console\Output\BufferedOutput;
+use Symfony\Component\Console\Output\OutputInterface;
 
 class CommandEvent
 {
@@ -13,16 +13,16 @@ class CommandEvent
     private ChainCommand $command;
 
     /**
-     * @var BufferedOutput
+     * @var OutputInterface
      */
-    private BufferedOutput $output;
+    private OutputInterface $output;
 
     /**
      * CommandEvent constructor.
      * @param ChainCommand $command
-     * @param BufferedOutput $output
+     * @param OutputInterface $output
      */
-    public function __construct(ChainCommand $command, BufferedOutput $output)
+    public function __construct(ChainCommand $command, OutputInterface $output)
     {
         $this->command = $command;
         $this->output = $output;
@@ -37,9 +37,9 @@ class CommandEvent
     }
 
     /**
-     * @return BufferedOutput
+     * @return OutputInterface
      */
-    public function getOutput(): BufferedOutput
+    public function getOutput(): OutputInterface
     {
         return $this->output;
     }

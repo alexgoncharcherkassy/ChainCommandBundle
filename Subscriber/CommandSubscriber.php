@@ -121,8 +121,8 @@ class CommandSubscriber implements EventSubscriberInterface
         $this->log(
             sprintf(
                 '%s registered as a member of %s command chain',
-                $event->getCommand()->getMember()->getCommand()->getName(),
-                $event->getCommand()->getCommand()->getName()
+                $event->getCommand()->getCommand()->getName(),
+                $event->getCommand()->getParentCommandName()
             )
         );
     }

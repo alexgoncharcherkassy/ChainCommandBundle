@@ -87,7 +87,7 @@ class ChainProcessor implements ChainProcessorInterface
     {
         $this->runEvent(CommandSubscriber::CHAIN_COMMAND_START, $command);
 
-        $this->registerMembers($command);
+        $this->registerMembers();
 
         $this->runMaster($command);
         $this->runMembers($command);
@@ -95,16 +95,13 @@ class ChainProcessor implements ChainProcessorInterface
 
     /** register members
      *
-     * @param ChainCommand $main
-     * @return array|mixed
      */
-    private function registerMembers(ChainCommand $main): void
+    private function registerMembers(): void
     {
-        foreach ($this->manager->getMembers() as $child) {
+        foreach ($this->manager->getMembers() as $member) {
             $this->runEvent(
                 CommandSubscriber::CHAIN_COMMAND_MEMBER_REGISTERED,
-                $main,
-                $child['command']
+                $member
             );
         }
     }

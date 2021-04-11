@@ -69,16 +69,16 @@ class ChainValidator implements ChainValidatorInterface
         // includes master command
         $numberOfCommands = 1;
 
-        /** @var ChainCommand $command */
-        $command = $this->master->getMember();
+        /** @var ChainCommand $member */
+        $member = $this->master->getMember();
 
-        while ($command === null) {
+        while ($member !== null) {
             ++$numberOfCommands;
-            $command = $this->findCommand($command->getMember());
+            $member = $member->getMember() ? $this->findCommand($member->getMember()) : null;
         }
 
         if ($numberOfCommands !== count($this->commands)) {
-            throw new \Exception("Chain is broken. Some commands");
+            throw new \Exception("Chain is broken. Some commands dont have parent command");
         }
 
         return $this;
