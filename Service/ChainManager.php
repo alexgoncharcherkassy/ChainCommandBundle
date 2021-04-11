@@ -73,8 +73,8 @@ class ChainManager implements ChainManagerInterface
         $member = $this->master->getMember();
 
         while ($member !== null) {
-            $member = $this->findCommand($member->getMember());
             yield $member;
+            $member = $member->getMember() ? $this->findCommand($member->getMember()) : null;
         }
     }
 
