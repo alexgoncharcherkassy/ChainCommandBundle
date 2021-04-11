@@ -27,5 +27,10 @@
         "symfony/framework-bundle": "5.2.*",
         "symfony/yaml": "5.2.*",
         "symfony/monolog-bridge": "^5.2"
+    },
+    "require-dev": {
+        "friendsofphp/php-cs-fixer": "^2.18",
+        "symfony/phpunit-bridge": "^5.2",
+        "phpunit/phpunit": "^9.5"
     }
 }
