@@ -7,20 +7,12 @@ use Symfony\Component\Console\Output\OutputInterface;
 
 class CommandEvent
 {
-    /**
-     * @var ChainCommand
-     */
     private ChainCommand $command;
 
-    /**
-     * @var OutputInterface
-     */
     private OutputInterface $output;
 
     /**
      * CommandEvent constructor.
-     * @param ChainCommand $command
-     * @param OutputInterface $output
      */
     public function __construct(ChainCommand $command, OutputInterface $output)
     {
@@ -28,17 +20,11 @@ class CommandEvent
         $this->output = $output;
     }
 
-    /**
-     * @return ChainCommand
-     */
     public function getCommand(): ChainCommand
     {
         return $this->command;
     }
 
-    /**
-     * @return OutputInterface
-     */
     public function getOutput(): OutputInterface
     {
         return $this->output;

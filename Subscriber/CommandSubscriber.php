@@ -10,61 +10,51 @@ use Symfony\Component\Console\Event\ConsoleCommandEvent;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 /**
- *
- * Class CommandSubscriber
+ * Class CommandSubscriber.
  */
 class CommandSubscriber implements EventSubscriberInterface
 {
     /**
-     * On chain command start
+     * On chain command start.
      */
     const CHAIN_COMMAND_START = 'chain_command.start';
 
     /**
-     * On registering member commands
+     * On registering member commands.
      */
     const CHAIN_COMMAND_MEMBER_REGISTERED = 'chain_command.member_registered';
 
     /**
-     * On before execution master command
+     * On before execution master command.
      */
     const CHAIN_COMMAND_BEFORE_MASTER_EXECUTED = 'chain_command.before_master_executed';
 
     /**
-     * On after execution master command
+     * On after execution master command.
      */
     const CHAIN_COMMAND_AFTER_MASTER_EXECUTED = 'chain_command.after_master_executed';
 
     /**
-     * On before execution member command
+     * On before execution member command.
      */
     const CHAIN_COMMAND_BEFORE_MEMBER_EXECUTED = 'chain_command.before_member_executed';
 
     /**
-     * On after execution member command
+     * On after execution member command.
      */
     const CHAIN_COMMAND_AFTER_MEMBER_EXECUTED = 'chain_command.after_member_executed';
 
     /**
-     * On chain command finish
+     * On chain command finish.
      */
     const CHAIN_COMMAND_FINISHED = 'chain_command.chan_command_finished';
 
-    /**
-     * @var LoggerInterface
-     */
     private LoggerInterface $logger;
 
-    /**
-     * @var ChainProcessorInterface
-     */
     private ChainProcessorInterface $processor;
-
 
     /**
      * CommandSubscriber constructor.
-     * @param LoggerInterface $logger
-     * @param ChainProcessorInterface $processor
      */
     public function __construct(LoggerInterface $logger, ChainProcessorInterface $processor)
     {
@@ -72,9 +62,6 @@ class CommandSubscriber implements EventSubscriberInterface
         $this->processor = $processor;
     }
 
-    /**
-     * @return array
-     */
     public static function getSubscribedEvents(): array
     {
         return [
@@ -89,18 +76,16 @@ class CommandSubscriber implements EventSubscriberInterface
         ];
     }
 
-    /** Check all run commands are they related to our chain
+    /** Check all run commands are they related to our chain.
      *
-     * @param ConsoleCommandEvent $event
      */
     public function consoleStart(ConsoleCommandEvent $event): void
     {
         $this->processor->run($event);
     }
 
-    /** Log master command
+    /** Log master command.
      *
-     * @param CommandEvent $event
      */
     public function start(CommandEvent $event): void
     {
@@ -112,9 +97,8 @@ class CommandSubscriber implements EventSubscriberInterface
         );
     }
 
-    /** Log member commands
+    /** Log member commands.
      *
-     * @param CommandEvent $event
      */
     public function memberRegistered(CommandEvent $event): void
     {
@@ -127,9 +111,8 @@ class CommandSubscriber implements EventSubscriberInterface
         );
     }
 
-    /** Log before master command executed
+    /** Log before master command executed.
      *
-     * @param CommandEvent $event
      */
     public function beforeMasterExecuted(CommandEvent $event): void
     {
@@ -141,18 +124,16 @@ class CommandSubscriber implements EventSubscriberInterface
         );
     }
 
-    /** Log master command executed
+    /** Log master command executed.
      *
-     * @param CommandEvent $event
      */
     public function afterMasterExecuted(CommandEvent $event): void
     {
         $this->log($event->getOutput()->fetch());
     }
 
-    /** Prepare to run member commands
+    /** Prepare to run member commands.
      *
-     * @param CommandEvent $event
      */
     public function beforeMemberExecuted(CommandEvent $event): void
     {
@@ -164,18 +145,16 @@ class CommandSubscriber implements EventSubscriberInterface
         );
     }
 
-    /** Log member command executed
+    /** Log member command executed.
      *
-     * @param CommandEvent $event
      */
     public function afterMemberExecuted(CommandEvent $event): void
     {
         $this->log($event->getOutput()->fetch());
     }
 
-    /** Log finish chain commands
+    /** Log finish chain commands.
      *
-     * @param CommandEvent $event
      */
     public function finish(CommandEvent $event): void
     {
@@ -187,9 +166,8 @@ class CommandSubscriber implements EventSubscriberInterface
         );
     }
 
-    /** Save to log file
+    /** Save to log file.
      *
-     * @param string $text
      */
     private function log(string $text): void
     {

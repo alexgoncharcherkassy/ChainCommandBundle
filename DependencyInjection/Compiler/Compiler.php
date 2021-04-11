@@ -2,18 +2,15 @@
 
 namespace AlexGoncharCK\ChainCommandBundle\DependencyInjection\Compiler;
 
-use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Compiler\CompilerPassInterface;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\DependencyInjection\Reference;
 
 /**
- * Class Compiler
+ * Class Compiler.
  */
 class Compiler implements CompilerPassInterface
 {
-    /**
-     * @param ContainerBuilder $container
-     */
     public function process(ContainerBuilder $container): void
     {
         $definition = $container->findDefinition('chain_command_bundle.chain_manager');
@@ -23,8 +20,8 @@ class Compiler implements CompilerPassInterface
             foreach ($tags as $tag) {
                 $commands[] = [
                     'command' => new Reference($id),
-                    'master' => (bool)($tag['master'] ?? false),
-                    'parent' => $tag['parent'] ?? null
+                    'master' => (bool) ($tag['master'] ?? false),
+                    'parent' => $tag['parent'] ?? null,
                 ];
             }
         }

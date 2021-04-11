@@ -7,8 +7,12 @@ use AlexGoncharCK\ChainCommandBundle\Service\Model\ChainCommand;
 interface ChainManagerInterface
 {
     public function addCommands(array $commands): void;
+
     public function getMasterCommand(): ChainCommand;
+
     public function getMembers(): iterable;
+
     public function isMasterCommand(string $name): bool;
+
     public function isMemberCommand(string $name): bool;
 }

@@ -14,31 +14,19 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class ChainProcessor implements ChainProcessorInterface
 {
-    /**
-     * @var ChainManagerInterface
-     */
     private ChainManagerInterface $manager;
 
-    /**
-     * @var EventDispatcherInterface
-     */
     private EventDispatcherInterface $eventDispatcher;
 
-    /**
-     * @var InputInterface
-     */
     private InputInterface $input;
 
-    /** Console output
+    /** Console output.
      *
-     * @var OutputInterface
      */
     private OutputInterface $output;
 
     /**
      * ChainProcessor constructor.
-     * @param ChainManagerInterface $manager
-     * @param EventDispatcherInterface $eventDispatcher
      */
     public function __construct(ChainManagerInterface $manager, EventDispatcherInterface $eventDispatcher)
     {
@@ -48,8 +36,7 @@ class ChainProcessor implements ChainProcessorInterface
 
     /**
      * If master command then run member,
-     * if command is on chain then throw exception
-     * @param ConsoleCommandEvent $event
+     * if command is on chain then throw exception.
      */
     public function run(ConsoleCommandEvent $event): void
     {
@@ -79,9 +66,8 @@ class ChainProcessor implements ChainProcessorInterface
         }
     }
 
-    /** Start chain
+    /** Start chain.
      *
-     * @param ChainCommand $command
      */
     public function start(ChainCommand $command): void
     {
@@ -93,7 +79,7 @@ class ChainProcessor implements ChainProcessorInterface
         $this->runMembers($command);
     }
 
-    /** register members
+    /** register members.
      *
      */
     private function registerMembers(): void
@@ -106,9 +92,8 @@ class ChainProcessor implements ChainProcessorInterface
         }
     }
 
-    /** Run master command
+    /** Run master command.
      *
-     * @param ChainCommand $command
      */
     private function runMaster(ChainCommand $command)
     {
@@ -117,9 +102,8 @@ class ChainProcessor implements ChainProcessorInterface
         $this->runEvent(CommandSubscriber::CHAIN_COMMAND_AFTER_MASTER_EXECUTED, $command, $buffedOutput);
     }
 
-    /** Run member commands
+    /** Run member commands.
      *
-     * @param ChainCommand $command
      */
     private function runMembers(ChainCommand $command)
     {
@@ -134,11 +118,8 @@ class ChainProcessor implements ChainProcessorInterface
         $this->runEvent(CommandSubscriber::CHAIN_COMMAND_FINISHED, $command);
     }
 
-    /** Run single command
+    /** Run single command.
      *
-     * @param ChainCommand $command
-     * @param InputInterface $input
-     * @return BufferedOutput
      */
     private function runCommand(ChainCommand $command, InputInterface $input): BufferedOutput
     {
@@ -152,10 +133,8 @@ class ChainProcessor implements ChainProcessorInterface
         return $buffer;
     }
 
-    /** Run event
+    /** Run event.
      *
-     * @param string $name
-     * @param ChainCommand $command
      * @param BufferedOutput | null $output
      */
     private function runEvent(string $name, ChainCommand $command, $output = null): void

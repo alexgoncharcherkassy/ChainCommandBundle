@@ -4,28 +4,20 @@ namespace AlexGoncharCK\ChainCommandBundle\Service;
 
 use AlexGoncharCK\ChainCommandBundle\Service\Model\ChainCommand;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\DependencyInjection\Reference;
 
 class ChainManager implements ChainManagerInterface
 {
     /**
-     * @var array<ChainCommand> $commands
+     * @var array<ChainCommand>
      */
     private array $commands = [];
 
-    /**
-     * @var ChainCommand|null
-     */
     private ?ChainCommand $master = null;
 
-    /**
-     * @var ChainValidatorInterface
-     */
     private ChainValidatorInterface $validator;
 
     /**
      * ChainManager constructor.
-     * @param ChainValidatorInterface $chainValidator
      */
     public function __construct(ChainValidatorInterface $chainValidator)
     {
@@ -33,14 +25,14 @@ class ChainManager implements ChainManagerInterface
     }
 
     /**
-     * Add commands from bundle compiler
+     * Add commands from bundle compiler.
      *
-     * @param array $commands
+     * @throws \Exception
      */
     public function addCommands(array $commands): void
     {
         foreach ($commands as $command) {
-           $this->createCommand(
+            $this->createCommand(
                $command['command'],
                $command['master'],
                $command['parent']
@@ -53,9 +45,7 @@ class ChainManager implements ChainManagerInterface
     }
 
     /**
-     * Return master command
-     *
-     * @return ChainCommand
+     * Return master command.
      */
     public function getMasterCommand(): ChainCommand
     {
@@ -63,25 +53,20 @@ class ChainManager implements ChainManagerInterface
     }
 
     /**
-     * Return member commands
-     *
-     * @return iterable
+     * Return member commands.
      */
     public function getMembers(): iterable
     {
         /** @var ChainCommand $member */
         $member = $this->master->getMember();
 
-        while ($member !== null) {
+        while (null !== $member) {
             yield $member;
             $member = $member->getMember() ? $this->findCommand($member->getMember()) : null;
         }
     }
 
     /**
-     * @param Command $command
-     * @param bool $master
-     * @param string|null $parent
      * @throws \Exception
      */
     private function createCommand(Command $command, bool $master, ?string $parent): void
@@ -89,12 +74,7 @@ class ChainManager implements ChainManagerInterface
         $chainCommand = new ChainCommand($command, $master, $parent);
 
         if ($this->findCommand($chainCommand)) {
-            throw new \Exception(
-                sprintf(
-                    "Command with name: '%s' is already present on chain",
-                    $chainCommand->getCommand()->getName()
-                )
-            );
+            throw new \Exception(sprintf("Command with name: '%s' is already present on chain", $chainCommand->getCommand()->getName()));
         }
 
         if ($master) {
@@ -105,24 +85,19 @@ class ChainManager implements ChainManagerInterface
     }
 
     /**
-     * Check is master command by name
-     *
-     * @param string $name
-     * @return bool
+     * Check is master command by name.
      */
     public function isMasterCommand(string $name): bool
     {
         if (!$this->master) {
             return false;
         }
+
         return $this->master->getCommand()->getName() === $name;
     }
 
     /**
-     * Check is member command by name
-     *
-     * @param string $name
-     * @return bool
+     * Check is member command by name.
      */
     public function isMemberCommand(string $name): bool
     {
@@ -132,7 +107,7 @@ class ChainManager implements ChainManagerInterface
     }
 
     /**
-     * Assign member commands to their parent commands
+     * Assign member commands to their parent commands.
      */
     private function assignCommandsToParent(): void
     {
@@ -145,22 +120,11 @@ class ChainManager implements ChainManagerInterface
             $parentCommand = $this->findCommandByName($command->getParentCommandName());
 
             if (!$parentCommand) {
-                throw new \Exception(
-                    sprintf(
-                        "Command with name: '%s' not found in chain",
-                        $command->getParentCommandName()
-                    )
-                );
+                throw new \Exception(sprintf("Command with name: '%s' not found in chain", $command->getParentCommandName()));
             }
 
             if ($parentCommand->getMember()) {
-                throw new \Exception(
-                    sprintf(
-                        "Parent command with name: '%s' already have member command with name: '%s'",
-                        $parentCommand->getCommand()->getName(),
-                        $parentCommand->getMember()->getCommand()->getName()
-                    )
-                );
+                throw new \Exception(sprintf("Parent command with name: '%s' already have member command with name: '%s'", $parentCommand->getCommand()->getName(), $parentCommand->getMember()->getCommand()->getName()));
             }
 
             $parentCommand->setMember($command);
@@ -168,15 +132,12 @@ class ChainManager implements ChainManagerInterface
     }
 
     /**
-     * Find command by ChainCommand model
-     *
-     * @param ChainCommand $chainCommand
-     * @return ChainCommand|null
+     * Find command by ChainCommand model.
      */
     private function findCommand(ChainCommand $chainCommand): ?ChainCommand
     {
         $filtered = array_filter($this->commands, function (ChainCommand $command) use ($chainCommand) {
-           return $command->getCommand()->getName() === $chainCommand->getCommand()->getName();
+            return $command->getCommand()->getName() === $chainCommand->getCommand()->getName();
         });
 
         $first = reset($filtered);
@@ -185,10 +146,7 @@ class ChainManager implements ChainManagerInterface
     }
 
     /**
-     * Find command by name
-     *
-     * @param string|null $name
-     * @return ChainCommand|null
+     * Find command by name.
      */
     private function findCommandByName(?string $name): ?ChainCommand
     {

@@ -6,20 +6,13 @@ use AlexGoncharCK\ChainCommandBundle\Service\Model\ChainCommand;
 
 class ChainValidator implements ChainValidatorInterface
 {
-    /**
-     * @var array
-     */
     private array $commands = [];
 
-    /**
-     * @var ChainCommand
-     */
     private ChainCommand $master;
 
     /**
-     * Validate chain
+     * Validate chain.
      *
-     * @param array $commands
      * @throws \Exception
      */
     public function validate(array $commands): void
@@ -34,9 +27,10 @@ class ChainValidator implements ChainValidatorInterface
     }
 
     /**
-     * Check that master command is present and single
+     * Check that master command is present and single.
      *
      * @return $this
+     *
      * @throws \Exception
      */
     private function checkMasterCommand(): self
@@ -45,12 +39,12 @@ class ChainValidator implements ChainValidatorInterface
             return $command->isMaster();
         });
 
-        if (count($filtered) === 0) {
-            throw new \Exception("Master command not present");
+        if (0 === count($filtered)) {
+            throw new \Exception('Master command not present');
         }
 
         if (count($filtered) > 1) {
-            throw new \Exception("Master command should be single");
+            throw new \Exception('Master command should be single');
         }
 
         $this->master = reset($filtered);
@@ -59,9 +53,10 @@ class ChainValidator implements ChainValidatorInterface
     }
 
     /**
-     * Check that all commands are consecutive
+     * Check that all commands are consecutive.
      *
      * @return $this
+     *
      * @throws \Exception
      */
     private function checkFullChain(): self
@@ -72,23 +67,20 @@ class ChainValidator implements ChainValidatorInterface
         /** @var ChainCommand $member */
         $member = $this->master->getMember();
 
-        while ($member !== null) {
+        while (null !== $member) {
             ++$numberOfCommands;
             $member = $member->getMember() ? $this->findCommand($member->getMember()) : null;
         }
 
         if ($numberOfCommands !== count($this->commands)) {
-            throw new \Exception("Chain is broken. Some commands dont have parent command");
+            throw new \Exception('Chain is broken. Some commands dont have parent command');
         }
 
         return $this;
     }
 
     /**
-     * Find command by name
-     *
-     * @param ChainCommand $chainCommand
-     * @return ChainCommand|null
+     * Find command by name.
      */
     private function findCommand(ChainCommand $chainCommand): ?ChainCommand
     {
