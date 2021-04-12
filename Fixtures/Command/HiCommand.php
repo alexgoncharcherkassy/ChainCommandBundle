@@ -10,7 +10,7 @@ class HiCommand extends Command
 {
     public function configure()
     {
-        $this->setName('bar:hi');
+        $this->setName('fixtures:hi');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

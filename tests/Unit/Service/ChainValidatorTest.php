@@ -28,8 +28,8 @@ class ChainValidatorTest extends TestCase
     public function testValidate()
     {
        $helloCommand = new ChainCommand(new HelloCommand(), true, null);
-       $hiCommand = new ChainCommand(new HiCommand(), false, 'bar:hello');
-       $byeCommand = new ChainCommand(new ByeCommand(), false, 'bar:hi');
+       $hiCommand = new ChainCommand(new HiCommand(), false, 'fixtures:hello');
+       $byeCommand = new ChainCommand(new ByeCommand(), false, 'fixtures:hi');
 
        $helloCommand->setMember($hiCommand);
        $hiCommand->setMember($byeCommand);
@@ -42,8 +42,8 @@ class ChainValidatorTest extends TestCase
     public function testValidateFailNotSingleMaster()
     {
         $helloCommand = new ChainCommand(new HelloCommand(), true, null);
-        $hiCommand = new ChainCommand(new HiCommand(), true, 'bar:hello');
-        $byeCommand = new ChainCommand(new ByeCommand(), false, 'bar:hi');
+        $hiCommand = new ChainCommand(new HiCommand(), true, 'fixtures:hello');
+        $byeCommand = new ChainCommand(new ByeCommand(), false, 'fixtures:hi');
 
         $helloCommand->setMember($hiCommand);
         $hiCommand->setMember($byeCommand);
@@ -57,8 +57,8 @@ class ChainValidatorTest extends TestCase
     public function testValidateFailNotPresentMaster()
     {
         $helloCommand = new ChainCommand(new HelloCommand(), false, null);
-        $hiCommand = new ChainCommand(new HiCommand(), false, 'bar:hello');
-        $byeCommand = new ChainCommand(new ByeCommand(), false, 'bar:hi');
+        $hiCommand = new ChainCommand(new HiCommand(), false, 'fixtures:hello');
+        $byeCommand = new ChainCommand(new ByeCommand(), false, 'fixtures:hi');
 
         $helloCommand->setMember($hiCommand);
         $hiCommand->setMember($byeCommand);

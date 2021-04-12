@@ -37,11 +37,11 @@ class ChainProcessorTest extends KernelTestCase
             ],
             [
                 'command' => $this->hiCommand,
-                'parent' => 'bar:hello',
+                'parent' => 'fixtures:hello',
             ],
             [
                 'command' => $this->byeCommand,
-                'parent' => 'bar:hi',
+                'parent' => 'fixtures:hi',
             ],
         ];
         $this->app->add($this->helloCommand);
@@ -70,7 +70,7 @@ class ChainProcessorTest extends KernelTestCase
         $this->assertEquals(113, $code);
         $this->assertEquals(
             $this->output->fetch(),
-            "Error: bar:hi command is a member of bar:hello command chain and cannot be executed on its own.\n"
+            "Error: fixtures:hi command is a member of fixtures:hello command chain and cannot be executed on its own.\n"
         );
     }
 

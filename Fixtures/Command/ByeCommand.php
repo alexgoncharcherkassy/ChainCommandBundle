@@ -10,7 +10,7 @@ class ByeCommand extends Command
 {
     public function configure()
     {
-        $this->setName('bar:bye');
+        $this->setName('fixtures:bye');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

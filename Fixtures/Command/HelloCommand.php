@@ -10,7 +10,7 @@ class HelloCommand extends Command
 {
     public function configure()
     {
-        $this->setName('bar:hello');
+        $this->setName('fixtures:hello');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output)

@@ -33,11 +33,11 @@ class ChainManagerTest extends TestCase
             ],
             [
                 'command' => $this->hiCommand,
-                'parent' => 'bar:hello',
+                'parent' => 'fixtures:hello',
             ],
             [
                 'command' => $this->byeCommand,
-                'parent' => 'bar:hi',
+                'parent' => 'fixtures:hi',
             ],
         ];
     }
@@ -72,12 +72,12 @@ class ChainManagerTest extends TestCase
             [
                 'command' => $this->hiCommand,
                 'master' => false,
-                'parent' => 'bar:bad',
+                'parent' => 'fixtures:bad',
             ],
         ];
 
         $this->expectException(\Exception::class);
-        $this->expectExceptionMessage("Command with name: 'bar:bad' not found in chain");
+        $this->expectExceptionMessage("Command with name: 'fixtures:bad' not found in chain");
 
         $this->manager->addCommands($commands);
     }
@@ -110,17 +110,17 @@ class ChainManagerTest extends TestCase
             ],
             [
                 'command' => $this->hiCommand,
-                'parent' => 'bar:hello',
+                'parent' => 'fixtures:hello',
             ],
             [
                 'command' => $this->byeCommand,
-                'parent' => 'bar:hello',
+                'parent' => 'fixtures:hello',
             ],
         ];
 
         $this->expectException(\Exception::class);
         $this->expectExceptionMessage(
-            "Parent command with name: 'bar:hello' already have member command with name: 'bar:hi'"
+            "Parent command with name: 'fixtures:hello' already have member command with name: 'fixtures:hi'"
         );
 
         $this->manager->addCommands($commands);
@@ -129,8 +129,8 @@ class ChainManagerTest extends TestCase
     public function testGetMembers()
     {
         $commandNames = [
-            'bar:hi',
-            'bar:bye',
+            'fixtures:hi',
+            'fixtures:bye',
         ];
 
         $this->manager->addCommands($this->commands);
@@ -144,28 +144,28 @@ class ChainManagerTest extends TestCase
     {
         $this->manager->addCommands($this->commands);
 
-        $this->assertTrue($this->manager->isMasterCommand('bar:hello'));
+        $this->assertTrue($this->manager->isMasterCommand('fixtures:hello'));
     }
 
     public function testIsMasterCommandFail()
     {
         $this->manager->addCommands($this->commands);
 
-        $this->assertFalse($this->manager->isMasterCommand('bar:hi'));
+        $this->assertFalse($this->manager->isMasterCommand('fixtures:hi'));
     }
 
     public function testIsMemberCommand()
     {
         $this->manager->addCommands($this->commands);
 
-        $this->assertTrue($this->manager->isMemberCommand('bar:hi'));
+        $this->assertTrue($this->manager->isMemberCommand('fixtures:hi'));
     }
 
     public function testIsMemberCommandFail()
     {
         $this->manager->addCommands($this->commands);
 
-        $this->assertFalse($this->manager->isMemberCommand('bar:hello'));
+        $this->assertFalse($this->manager->isMemberCommand('fixtures:hello'));
     }
 
     public function testGetMasterCommand()
