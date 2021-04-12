@@ -62,6 +62,9 @@ class CommandSubscriber implements EventSubscriberInterface
         $this->processor = $processor;
     }
 
+    /**
+     * @return string[]
+     */
     public static function getSubscribedEvents(): array
     {
         return [

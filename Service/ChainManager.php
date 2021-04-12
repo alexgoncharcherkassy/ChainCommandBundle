@@ -34,8 +34,8 @@ class ChainManager implements ChainManagerInterface
         foreach ($commands as $command) {
             $this->createCommand(
                $command['command'],
-               $command['master'],
-               $command['parent']
+               $command['master'] ?? false,
+               $command['parent'] ?? null
            );
         }
 

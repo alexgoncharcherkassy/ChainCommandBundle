@@ -20,9 +20,6 @@ class ChainProcessor implements ChainProcessorInterface
 
     private InputInterface $input;
 
-    /** Console output.
-     *
-     */
     private OutputInterface $output;
 
     /**
@@ -37,6 +34,8 @@ class ChainProcessor implements ChainProcessorInterface
     /**
      * If master command then run member,
      * if command is on chain then throw exception.
+     *
+     * @throws \Exception
      */
     public function run(ConsoleCommandEvent $event): void
     {
@@ -68,8 +67,9 @@ class ChainProcessor implements ChainProcessorInterface
 
     /** Start chain.
      *
+     * @throws \Exception
      */
-    public function start(ChainCommand $command): void
+    private function start(ChainCommand $command): void
     {
         $this->runEvent(CommandSubscriber::CHAIN_COMMAND_START, $command);
 
@@ -94,8 +94,9 @@ class ChainProcessor implements ChainProcessorInterface
 
     /** Run master command.
      *
+     * @throws \Exception
      */
-    private function runMaster(ChainCommand $command)
+    private function runMaster(ChainCommand $command): void
     {
         $this->runEvent(CommandSubscriber::CHAIN_COMMAND_BEFORE_MASTER_EXECUTED, $command);
         $buffedOutput = $this->runCommand($command, $this->input);
@@ -104,8 +105,9 @@ class ChainProcessor implements ChainProcessorInterface
 
     /** Run member commands.
      *
+     * @throws \Exception
      */
-    private function runMembers(ChainCommand $command)
+    private function runMembers(ChainCommand $command): void
     {
         $this->runEvent(CommandSubscriber::CHAIN_COMMAND_BEFORE_MEMBER_EXECUTED, $command);
 
@@ -120,6 +122,7 @@ class ChainProcessor implements ChainProcessorInterface
 
     /** Run single command.
      *
+     * @throws \Exception
      */
     private function runCommand(ChainCommand $command, InputInterface $input): BufferedOutput
     {
