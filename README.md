@@ -1,2 +1,3 @@
-08.04 - 2.5
-09.04 - 2.5
+# ChainCommandBundle
+
+ChainCommandBundle is a Symfony bundle that implements command chaining functionality.
